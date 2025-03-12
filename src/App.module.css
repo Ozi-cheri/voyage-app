@@ -35,3 +35,7 @@
     transition: color ease-in-out 0.3s;
     color: #2142b2;
   }
+
+  .active {
+    color: blue; /* Or any color you prefer for the active link */
+  }

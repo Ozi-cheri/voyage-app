@@ -1,0 +1,19 @@
+/* src/components/NavBar.module.css */
+
+.navbar {
+    background-color: #f8f9fa; /* Light gray background */
+    padding: 10px 20px;
+  }
+
+  /* Add this to your NavBar.module.css or App.module.css */
+.nav-link {
+  
+  padding: 10px 15px;
+}
+
+.active {
+  color: blue; /* Or any color you prefer for the active link */
+}
+
+  
+  
