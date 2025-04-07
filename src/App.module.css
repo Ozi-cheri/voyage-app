@@ -1,41 +1,89 @@
 /* App.module.css */
-.container {
-    background-color: lightblue;
-    padding: 20px;
-    font-family: "DM Sans", sans-serif;
+
+
+  .container{
+    background-color: #2596be;
+    font-family: "Sniglet", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    min-height: 100vh;
 }
 
+.Main {
+  padding-top: 81px;
+  font-family: "Sniglet", system-ui;
+}
+
+.Content {
+  background-color: #eeeee4;
+  padding: 10px;
+  border-radius: 2px;
+  border: 1px solid #21130d;
+}
+
+.FillerImage {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.Image {
+  max-height: 100vh;
+  max-width: 100%;
+  object-fit: contain;
+}
+  
 * {
     box-sizing: border-box;
   }
   
-  a {
-    color: #555555;
+a {
+    color: #e28743;
     transition: color ease-in-out 0.3s;
   }
   
-  a:hover {
+a:hover {
     text-decoration: none;
   }
   
-  a:hover i {
-    color: #2142b2;
+a:hover i {
+    color: #76b5c5;
     transition: color ease-in-out 0.3s;
   }
+
+  input[type="file"] {
+    display: none;
+  }  
   
-  i {
-    color: #cfced3;
+i {
+    color: #a45c74;
     font-size: 1.6rem;
     padding: 7px;
     vertical-align: middle;
   }
   
-  i:hover {
+i:hover {
     cursor: pointer;
     transition: color ease-in-out 0.3s;
-    color: #2142b2;
+    color: #76b5c5;
   }
 
-  .active {
-    color: blue; /* Or any color you prefer for the active link */
-  }
+  figure {
+  text-align: center;
+  display: inline-block;
+}
+
+/* scrollbar */
+*::-webkit-scrollbar {
+  width: 5px;
+}
+*::-webkit-scrollbar-track {
+  background: #eeeee4;
+}
+*::-webkit-scrollbar-thumb {
+  background: #eab676;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #e28743;
+  
+}
