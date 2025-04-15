@@ -1,59 +1,115 @@
 import React from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
-import logo from "../assets/logo.png"; // Adjust the path as needed
+import logo from "../assets/logo.png";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
-import { useCurrentUser } from "../contexts/CurrentUserContext";
+import {
+  useCurrentUser,
+  useSetCurrentUser,
+} from "../contexts/CurrentUserContext";
 
-const Navigation = () => {
-    const currentUser = useCurrentUser();
+import axios from "axios";
 
+const NavigationBar = () => {
+  const currentUser = useCurrentUser();
+  const setCurrentUser = useSetCurrentUser();
 
-    const loggedInIcons = <>{currentUser?.username}</>;
-    const loggedOutIcons = (
-     <>
-     
-       <Nav.Link as={NavLink} to="/signin" activeClassName={styles.active}>
-                        <i className="fa-solid fa-sign-in-alt"></i> Sign In
-                    </Nav.Link>
+  const handleSignOut = async () => {
+    try {
+      await axios.post("dj-rest-auth/logout/");
+      setCurrentUser(null);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-                    {/* Sign Up Link */}
-                    <Nav.Link as={NavLink} to="/signup" activeClassName={styles.active}>
-                        <i className="fa-solid fa-user-plus"></i> Sign Up
-                    </Nav.Link>
-                    </>
+  const addPostIcon = (
+    <NavLink
+      className={styles.NavLink}
+      activeClassName={styles.Active}
+      to="/posts/create"
+    >
+      <i className="far fa-plus-square"></i>Add post
+    </NavLink>
+  );
+  const loggedInIcons = (
+    <>
+      <NavLink
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+        to="/feed"
+      >
+        <i className="fas fa-stream"></i>Feed
+      </NavLink>
+      <NavLink
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+        to="/liked"
+      >
+        <i className="fas fa-heart"></i>Liked
+      </NavLink>
+      <NavLink className={styles.NavLink} to="/" onClick={handleSignOut}>
+        <i className="fas fa-sign-out-alt"></i>Sign out
+      </NavLink>
+      <NavLink
+        className={styles.NavLink}
+        to={`/profiles/${currentUser?.profile_id}`}
+      >
+          <i className="fas fa-user-circle"></i> <span>Profile</span>
+        
+      </NavLink>
+    </>
+  );
+  const loggedOutIcons = (
+    <>
+      <NavLink
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+        to="/signin"
+      >
+        <i className="fas fa-sign-in-alt"></i>Sign in
+      </NavLink>
+      <NavLink
+        to="/signup"
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+      >
+        <i className="fas fa-user-plus"></i>Sign up
+      </NavLink>
+    </>
   );
 
-    return (
-        <Navbar  className={styles.navbar}bg="light" expand="lg">
-            <Container>
-        
-            <Navbar.Brand>
+  return (
+    <Navbar className={styles.navbar} bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand>
+          <img
+            src={logo}
+            alt="Voyage Logo"
+            width="50" 
+            height="50"
+          />
+        </Navbar.Brand>
+        {currentUser && addPostIcon}
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ml-auto">
             
-                <img 
-                    src={logo} 
-                    alt="Voyage Logo" 
-                    width="50" // Adjust size as needed
-                    height="50" />
-                    
-                
-                
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="ml-auto">
-                     {/* Home Link */}
-                     <Nav.Link as={NavLink} to="/" exact activeClassName={styles.active}>
-                        <i className="fa-solid fa-house"></i> Home
-                    </Nav.Link>
-                    {currentUser ? loggedInIcons : loggedOutIcons}
+            <NavLink
+              exact
+              className={styles.NavLink}
+              activeClassName={styles.Active}
+              to="/"
+            >
+              <i className="fas fa-home"></i>Home
+            </NavLink>
 
-                    
-                </Nav>
-            </Navbar.Collapse>
-            </Container>
-        </Navbar>
-    );
+            {currentUser ? loggedInIcons : loggedOutIcons}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 };
 
-export default Navigation;
+export default NavigationBar;
