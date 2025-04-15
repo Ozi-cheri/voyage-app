@@ -7,12 +7,14 @@ import {
   useCurrentUser,
   useSetCurrentUser,
 } from "../contexts/CurrentUserContext";
-
+import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
 import axios from "axios";
 
 const NavigationBar = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
+
+  const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
   const handleSignOut = async () => {
     try {
@@ -32,6 +34,7 @@ const NavigationBar = () => {
       <i className="far fa-plus-square"></i>Add post
     </NavLink>
   );
+
   const loggedInIcons = (
     <>
       <NavLink
@@ -55,11 +58,11 @@ const NavigationBar = () => {
         className={styles.NavLink}
         to={`/profiles/${currentUser?.profile_id}`}
       >
-          <i className="fas fa-user-circle"></i> <span>Profile</span>
-        
+        <i className="fas fa-user-circle"></i> <span>Profile</span>
       </NavLink>
     </>
   );
+
   const loggedOutIcons = (
     <>
       <NavLink
@@ -80,21 +83,24 @@ const NavigationBar = () => {
   );
 
   return (
-    <Navbar className={styles.navbar} bg="light" expand="lg">
+    <Navbar
+      className={styles.navbar}
+      bg="light"
+      expand="lg"
+      expanded={expanded}
+    >
       <Container>
         <Navbar.Brand>
-          <img
-            src={logo}
-            alt="Voyage Logo"
-            width="50" 
-            height="50"
-          />
+          <img src={logo} alt="Voyage Logo" width="50" height="50" />
         </Navbar.Brand>
         {currentUser && addPostIcon}
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle
+          ref={ref}
+          onClick={() => setExpanded(!expanded)}
+          aria-controls="basic-navbar-nav"
+        />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto">
-            
+          <Nav className="ml-auto" onClick={() => setExpanded(false)}>
             <NavLink
               exact
               className={styles.NavLink}
@@ -103,7 +109,6 @@ const NavigationBar = () => {
             >
               <i className="fas fa-home"></i>Home
             </NavLink>
-
             {currentUser ? loggedInIcons : loggedOutIcons}
           </Nav>
         </Navbar.Collapse>
